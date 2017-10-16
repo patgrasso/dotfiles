@@ -1,0 +1,7 @@
+# Tern files
+.tern-port
+.tern-project
+
+
+# Vim swap files
+.*.sw*

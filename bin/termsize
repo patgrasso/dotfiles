@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# Usage:
+#   termsize [cols] [rows]              - Set the terminal window to
+#                                         `cols`x`rows`
+#   termsize [+/-][cols] [+/-][rows]    - Set the relative size of the terminal
+#                                         window (grow/shrink by cols, rows)
+#
+# Note: The row/col size ratio may not be perfect, so 50 rows x 50 cols may
+#       produce an elongated rectangular terminal window.
+
+# Examples:
+#   termsize 80 24                      - cols: 80, rows: 24
+#   termsize +3 -2                      - +3 cols, -2 rows
+#   termsize + +                        - +1 cols, +1 rows
+
+TERMSIZE_DEFAULT="80x24"
+
+compute_new_size () {
+    arg=$1
+    size=$2
+
+    case $arg in
+        [0-9]*)     result="$1" ;;
+        [+-][0-9]*) result="$((size + arg))" ;;
+        +)          result="$((size + 1))" ;;
+        -)          result="$((size - 1))" ;;
+        *)          result="$((size))" ;;
+    esac
+
+
+    if [ $((result <= 10)) == 1 ]; then
+        echo "$size"
+    else
+        echo "$result"
+    fi
+}
+
+termsize () {
+    rows=0
+    cols=0
+    regex="rows ([0-9]+); columns ([0-9]+)"
+    dimension_regex="([0-9]+)x([0-9]+)"
+
+    # Determine current window size
+    if [[ `stty -a` =~ $regex ]]; then
+        rows="${BASH_REMATCH[1]}"
+        cols="${BASH_REMATCH[2]}"
+    fi
+
+    # Parse arguments and apply cases
+    # If "default" is specified, set to the default window size
+    # Otherwise, take the args and compute the new size
+    if [ "$1" == "default" ]; then
+        [[ $TERMSIZE_DEFAULT =~ $dimension_regex ]]
+        new_cols="${BASH_REMATCH[1]}"
+        new_rows="${BASH_REMATCH[2]}"
+    else
+        new_cols=`compute_new_size $1 $cols`
+        new_rows=`compute_new_size $2 $rows`
+    fi
+
+    # Sets the window size
+    printf "\e[8;${new_rows};${new_cols}t"
+
+    # Report the change
+    #echo
+    echo    "       x   y"
+    echo -n "from : "
+    echo "$cols $rows"
+
+    echo -n "to   : "
+    echo "$new_cols $new_rows"
+}
+
+termsize $@
+

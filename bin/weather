@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Usage:
+#   weather [city]          - Display a brief summary
+#   weather report [city]   - Expand window and display a full report
+
+# Examples:
+#   weather new york city
+#   weather report san francisco
+
+weather () {
+    if [ "$1" == "report" ]; then
+        printf "\e[8;41;125t"               # Expand the terminal window
+        location=${@:2}                     # Get city name arguments
+        curl -s "wttr.in/${location// /_}"  # Join them with _ and curl wttr.in
+    else
+        location=${@:1}
+        curl -s "wttr.in/${location// /_}" | head -n 7
+    fi
+}
+
+weather $@
+
+

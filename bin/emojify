@@ -1,0 +1,76 @@
+#!/usr/bin/python
+
+import base64, sys
+
+def goomoji_decode(code):
+    #Base64 decode.
+    binary = base64.b64decode(code)
+    #UTF-8 decode.
+    decoded = binary.decode('utf8')
+    #Get the UTF-8 value.
+    value = ord(decoded)
+    #Hex encode, trim the 'FE' prefix, and uppercase.
+    return format(value, 'x')[2:].upper()
+
+def goomoji_encode(code):
+    #Add the 'FE' prefix and decode.
+    value = int('FE' + code, 16)
+    #Convert to UTF-8 character.
+    encoded = unichr(value)
+    #Encode UTF-8 to binary.
+    binary = bytearray(encoded, 'utf8')
+    #Base64 encode return end return a UTF-8 string.
+    return base64.b64encode(binary).decode('utf-8')
+
+def display_help():
+    print 'Usage: emojify [-d|-e] "utf-8 code"'
+    print '  -d | Decode into hex code'
+    print '  -e | Encode into utf-8 representation'
+    print '  -g | Decode/encode from gmail utf-8 char format'
+    print '* If neither is specified, the default function is encode'
+
+def is_flag_set(flag):
+    for arg in sys.argv:
+        if arg[0] == '-' and flag in arg:
+            return True
+    return False
+
+def argv_no_flags():
+    args = []
+
+    for arg in sys.argv[1:]:
+        if arg[0] != '-':
+            args += [arg]
+    return args
+
+
+# Too few arguments...print help and exit
+if len(sys.argv) <= 1:
+    display_help()
+    exit(1)
+
+# Decode
+if is_flag_set('d'):
+    if is_flag_set('g'):
+        print goomoji_decode(argv_no_flags()[0].split('?')[3])
+    else:
+        print goomoji_decode(argv_no_flags()[0])
+
+# Encode
+elif is_flag_set('e'):
+    if is_flag_set('g'):
+        print '=?UTF-8?B?' + goomoji_encode(argv_no_flags()[0]) + '?='
+    else:
+        print goomoji_encode(argv_no_flags()[0])
+
+# Help
+elif is_flag_set('h'):
+    display_help()
+    exit(0)
+
+# Default to encode
+else:
+    if is_flag_set('-g'):
+        print '=?UTF-8?B?' + goomoji_encode(argv_no_flags()[0]) + '?='
+    else:
+        print goomoji_encode(argv_no_flags()[0])

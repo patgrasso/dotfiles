@@ -1,0 +1,80 @@
+#!/bin/sh
+
+###########################################################################
+# Name        : miniwatch(1)
+# Author      : Patrick Grasso                                            #
+# Created     : 10/27/2017                                                #
+# Description : Mimics the watch(1) command, except it uses `echo -e` to  #
+#               print, preserving colors and other ANSI escaped chars     #
+###########################################################################
+
+PROG=$(basename $0)
+USAGE="\
+Usage:
+  $PROG [options] command
+
+Options:
+  -n <secs>   seconds to wait between updates
+  -h          show help\
+"
+
+# Parse options
+show_title=1
+interval=2.0
+
+while getopts hn:t name
+do
+  case $name in
+    t) show_title=0;;
+    h) echo "$USAGE" && exit;;
+    n) interval=$(printf "%.1f" "$OPTARG");;
+    *) exit 1;;
+  esac
+done
+
+shift $((OPTIND - 1))
+
+if [ -z "$*" ]; then
+  >&2 echo "$USAGE"
+  exit 1
+fi
+
+# Capture screen & make SIGINT restore the screen before exiting
+tput smcup
+tput civis
+trap 'tput rmcup && tput cnorm && exit' INT
+
+clear
+while true; do
+  # Print title
+  output=
+  cols=${COLUMNS-`tput cols`}
+  rows=$(tput lines)
+  if [ $show_title == 1 ]; then
+    # Frequency & command (left-aligned)
+    output="$(printf "Every %.1fs: %s" "$interval" "$*")"
+    chars_printed=$(echo -n "$output" | wc -c)
+
+    # Host & date (right-aligned)
+    host_date="$(hostname): $(date)"
+    output="$output$(printf "%$(expr $cols - $chars_printed)s" "$host_date")"
+
+    # Buffer space
+    output="$output\n\n"
+    rows=$(expr $rows - 2)
+  fi
+
+  # Execute
+  output="$output`${SHELL-/bin/sh} -c "$*"`"
+
+  # Trim output to fit screen
+  output="$(echo -e "$output" | head -n $rows)"
+
+  tput cup 0 0
+  echo -e "$output"
+  sleep $interval
+done
+
+# Unset screen (in the rare case the loop breaks)
+tput rmcup
+tput tnorm

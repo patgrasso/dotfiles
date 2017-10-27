@@ -1,0 +1,86 @@
+#!/bin/sh
+
+###########################################################################
+# Name        : updates(1)                                                #
+# Author      : Patrick Grasso                                            #
+# Created     : 10/27/2017                                                #
+# Description : Runs pacman -Sup and parses the output to show outdated   #
+#               packages and the time since the last release              #
+###########################################################################
+
+# Parse args, leave unknown args alone
+pretty=0
+show_time_since=0
+
+passThru=""
+while getopts ":sp" name
+do
+  case "$name" in
+    p) pretty=1 ;;
+    s) show_time_since=1 ;;
+    *) passThru="-$OPTARG $passThru" ;;
+  esac
+done
+
+shift $(( OPTIND - 1 ))
+ARGS="$passThru $*"
+
+# Date differ -- prints the difference between dates $1 and $2 in appropriate
+# units (days > minutes > hours : stopping at whichever unit yields a time > 0)
+diffdate() {
+  d1=$(date -d "$1" +%s)
+  d2=$(date -d "$2" +%s)
+
+  [      1      ] && val=$(( (d1 - d2) / 31536000 )) && unit=years    && c=1
+  [ "$val" == 0 ] && val=$(( (d1 - d2) / 2592000  )) && unit=months   && c=1
+  [ "$val" == 0 ] && val=$(( (d1 - d2) / 604800   )) && unit=weeks    && c=1
+  [ "$val" == 0 ] && val=$(( (d1 - d2) / 86400    )) && unit=days     && c=3
+  [ "$val" == 0 ] && val=$(( (d1 - d2) / 3600     )) && unit=hours    && c=2
+  [ "$val" == 0 ] && val=$(( (d1 - d2) / 60       )) && unit=minutes  && c=2
+
+  [ "$pretty" == 1 ] && tput bold && tput setaf $c
+  printf "%9s %s" $val $unit
+  [ "$pretty" == 1 ] && tput sgr0
+}
+
+# Check outdated packages and supply any additional arguments not consumed by
+# this program (this might prompt for creds if sudo is required, e.g. -y)
+outdated_pkgs=$(pacman -Sup $ARGS)
+errno=$?
+[ $errno != 0 ] && exit $errno
+
+pkgs=$(echo "$outdated_pkgs" |
+       grep -A 100000 ":: Starting full system upgrade..." |
+       perl -pe 's|.*/(.*)\-(\d+\.\|\d{4,}\-).*$|\1|' |
+       tail -n +2)
+
+# Conditionally print "Build Date" or "Time Since Build" depending on -s
+if [ "$show_time_since" == 0 ]; then
+  printf "%-30s %s\n" "Package" "Build Date"
+  printf "%-30s %s\n" "-------" "----------"
+else
+  printf "%-30s %s\n" "Package" "Time Since Build"
+  printf "%-30s %s\n" "-------" "----------------"
+fi
+
+for pkg in $pkgs; do
+  pkg_info=$(pacman -Si "$pkg" 2> /dev/null)
+
+  # If the regex to match properly, pacman -Si is likely to fail
+  if [ $? != 0 ]; then
+    >&2 echo "Couldn't get info for '$pkg'"
+    continue
+  fi
+
+  # Grep the last build date from the info output
+  build_date=$(echo "$pkg_info" |
+               grep "Build Date" |
+               sed "s/Build Date[ :]*//")
+
+  # If -s, show the time that has passed since the last build
+  if [ "$show_time_since" == 1 ]; then
+    build_date=$(diffdate "`date`" "$build_date")
+  fi
+
+  printf "%-30s %-30s %s\n" "$pkg" "$build_date" "$time_since"
+done

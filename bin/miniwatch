@@ -14,6 +14,8 @@ Usage:
   $PROG [options] command
 
 Options:
+  -t          turn off the header showing interval, the command, and the
+              current time and date
   -n <secs>   seconds to wait between updates
   -h          show help\
 "
@@ -43,8 +45,10 @@ fi
 tput smcup
 tput civis
 trap 'tput rmcup && tput cnorm && exit' INT
+trap 'clear && echo -e "$output"' WINCH
 
 clear
+output=
 while true; do
   # Print title
   output=
@@ -72,7 +76,8 @@ while true; do
 
   tput cup 0 0
   echo -e "$output"
-  sleep $interval
+  sleep $interval &
+  wait
 done
 
 # Unset screen (in the rare case the loop breaks)

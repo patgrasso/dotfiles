@@ -38,8 +38,8 @@ values."
      ;;html
 
      ;;themes-megapack
-     theme-pgrasso
-     css-pgrasso
+     ;;theme-pgrasso
+     ;;css-pgrasso
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
@@ -132,11 +132,11 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+   dotspacemacs-default-font '("Inconsolata"
+                               :size 15
                                :weight normal
                                :width normal
-                               :powerline-scale 1.1)
+                               :powerline-scale 1.2)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The leader key accessible in `emacs state' and `insert state'
@@ -278,11 +278,6 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place you code here."
   (global-hl-line-mode -1)
   (global-linum-mode)
-  (setq-default dotspacemacs-default-font '("Source Code Pro"
-                                            :size 13
-                                            :weight regular
-                                            :width normal
-                                            :powerline-scale 1.1))
 
   (defun check-expansion ()
     (save-excursion
@@ -328,6 +323,8 @@ you should place you code here."
   (setq web-mode-code-indent-offset 2)
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-attr-indent-offset 2)
+  (setq sh-indentation 2)
+  (setq evil-shift-width 2)
   (flycheck-add-mode 'javascript-eslint 'js2-mode)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (setq tab-always-indent 'complete)
@@ -339,12 +336,9 @@ you should place you code here."
                (flycheck-may-enable-checker 'javascript-eslint)
                (when (executable-find "eslint")
                  (flycheck-select-checker 'javascript-eslint))))
-  (add-hook 'react-mode-hook
-            '(lambda ()
-               (setq tab-width 2)))
-  (add-hook 'pug-mode-hook
-            '(lambda ()
-               (setq tab-width 2)))
+  (add-hook 'react-mode-hook '(lambda () (setq tab-width 2)))
+  (add-hook 'pug-mode-hook '(lambda () (setq tab-width 2)))
+  (add-hook 'markdown-mode-hook '(lambda () (setq tab-width 2)))
 
 
   ;; Use John Gruber's perl script to compile markdown
@@ -355,7 +349,7 @@ you should place you code here."
             '(lambda ()
               (setq tab-width 4)))
 
-  (setq-default tab-width 4)
+  (setq-default tab-width 2)
 
   ;; Org settings
   (setq-default org-startup-indented 't)
@@ -405,11 +399,16 @@ you should place you code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (yapfify ws-butler winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill toc-org tagedit spaceline powerline smeargle slim-mode scss-mode sass-mode restart-emacs rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el paradox spinner orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file neotree mwim move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum livid-mode skewer-mode simple-httpd live-py-mode linum-relative link-hint less-css-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc info+ indent-guide hydra hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode graphviz-dot-mode google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit magit-popup git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight emmet-mode elisp-slime-nav dumb-jump diminish define-word cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-emacs-eclim eclim company-anaconda company column-enforce-mode coffee-mode clean-aindent-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup birds-of-paradise-plus-theme)))
  '(paradox-github-token t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:background "#452E2E" :foreground "#E6E1C4"))))
  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
- '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
+ '(markdown-code-face ((t (:inherit ##)))))

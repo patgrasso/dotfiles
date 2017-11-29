@@ -18,13 +18,12 @@ set mouse=a
 
 
 " Terminal Colors
-"set background=light
-set guicolors
+try | set guicolors     | catch | endtry
+try | set termguicolors | catch | endtry
 set t_Co=256
-let g:solarized_termcolors=256
-"colorscheme solarized
+"let g:solarized_termcolors=256
+"let g:molokai_original = 1
 colorscheme birds-of-paradise
-let g:molokai_original = 1
 
 
 syntax on
@@ -101,8 +100,8 @@ let g:nerdtree_tabs_open_on_gui_startup=0
 
 
 
-" YouCompleteMe + TernJS
-call tern#Enable()
+" YouCompleteMe + TernJS (XXX: this is slow)
+"call tern#Enable()
 let g:tern_map_keys=1
 let g:tern_show_signature_in_pum=1
 let g:tern_show_argument_hints='on_move'
@@ -121,10 +120,23 @@ autocmd Filetype javascript setlocal expandtab ts=2 sw=2 sts=2
 autocmd Filetype coffee setlocal expandtab ts=2 sw=2 sts=2
 autocmd Filetype jade setlocal expandtab ts=2 sw=2 sts=2
 autocmd Filetype ruby setlocal expandtab ts=2 sw=2 sts=2
+autocmd Filetype c setlocal expandtab ts=4 sw=4 sts=4
 
 
 " vim-jsx
 let g:jsx_ext_required = 0
+
+
+" wildmenu
+if has('wildmenu')
+  set wildmenu
+  set wildmode=longest:full,full
+  set wildignore+=*.a,*.o,*.pyc,*.class
+  set wildignore+=~,*.sw*,*.tmp,*.bak
+  set wildignore+=.git,tags
+  set wildignore+=*/node_modules/*
+  set wildignore+=*.jpg,*.png,*.pdf
+endif
 
 
 "

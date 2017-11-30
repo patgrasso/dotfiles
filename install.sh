@@ -1,9 +1,13 @@
 #!/bin/bash
 
+SETUP_SCRIPTS="
+  install.vim.sh
+"
 IGNORE="
   $(basename $0)
+  $SETUP_SCRIPTS
 "
-NON_DOT_LINKS="
+NON_DOT_DIRS="
   bin
   texmf
 "
@@ -69,17 +73,21 @@ make_sym_link () {
 # Move into the dotfiles dir
 cd $LOCAL_DIR
 
-# For everything that isn't in NON_DOT_LINKS or IGNORE in the local dir
+# Execute setup scripts
+for script in $SETUP_SCRIPTS; do
+  . $script
+done
+
+# All top-level regular files (excluding $IGNORE)
 for f in $(find * -maxdepth 0 -type f); do
   contains "$IGNORE" "$f"
   [ $? == 1 ] && make_sym_link $f 1
 done
 
-# Now, for all NON_DOT_LINKS
-for d in "$NON_DOT_LINKS"; do
+# Install regular files nested in NON_DOT_DIRS as ~/<dir>/.../<file>
+for d in "$NON_DOT_DIRS"; do
   for f in $(find $d -type f); do
     mkdir -p "$HOME/$(dirname $f)"
     make_sym_link $f 0
   done
 done
-

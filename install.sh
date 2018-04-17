@@ -80,8 +80,9 @@ done
 
 # All top-level regular files (excluding $IGNORE)
 for f in $(find * -maxdepth 0 -type f); do
-  contains "$IGNORE" "$f"
-  [ $? == 1 ] && make_sym_link $f 1
+  if ! contains "$IGNORE" "$f"; then
+    make_sym_link $f 1
+  fi
 done
 
 # Install regular files nested in NON_DOT_DIRS as ~/<dir>/.../<file>

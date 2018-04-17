@@ -16,11 +16,11 @@ filetype plugin indent on
 " Mouse Ability
 set mouse=a
 
-
 " Terminal Colors
 try | set guicolors     | catch | endtry
 try | set termguicolors | catch | endtry
 set t_Co=256
+set t_ut=
 "let g:solarized_termcolors=256
 "let g:molokai_original = 1
 colorscheme birds-of-paradise
@@ -32,6 +32,8 @@ syntax on
 " Highlighting for specific extensions
 au BufNewFile,BufRead *.hbs set filetype=html
 au BufNewFile,BufRead *.ejs set filetype=html
+"au BufNewFile,BufRead *.js  set filetype=js
+"au BufNewFile,BufRead *.jsx set filetype=jsx
 "au BufNewFile,BufRead *.jade set filetype=html
 
 
@@ -41,6 +43,9 @@ set laststatus=2
 set nospell
 set showcmd
 set backspace=indent,eol,start
+set ruler
+set foldlevelstart=99
+set textwidth=79
 
 
 " Trailing Whitespace
@@ -98,6 +103,18 @@ let NERDTreeShowHidden=1
 let NERDTreeKeepTreeInNewTab=1
 let g:nerdtree_tabs_open_on_gui_startup=0
 
+" pangloss/vim-javascript
+augroup javascript_folding
+  au!
+  au FileType javascript setlocal foldmethod=syntax
+augroup END
+
+let g:javascript_plugin_jsdoc = 1
+hi link jsDocTags   Constant
+hi link jsDocParam  Normal
+hi link jsNull      Constant
+hi link jsUndefined Constant
+hi link jsFunction  Keyword
 
 
 " YouCompleteMe + TernJS (XXX: this is slow)
@@ -116,11 +133,12 @@ set diffopt+=vertical
 
 " ftplugin
 filetype plugin indent on
-autocmd Filetype javascript setlocal expandtab ts=2 sw=2 sts=2
+autocmd Filetype javascript setlocal expandtab ts=2 sw=2 sts=2 tw=79 fo+=t
 autocmd Filetype coffee setlocal expandtab ts=2 sw=2 sts=2
+autocmd Filetype python setlocal expandtab ts=2 sw=2 sts=2 tw=79 fo+=t
 autocmd Filetype jade setlocal expandtab ts=2 sw=2 sts=2
 autocmd Filetype ruby setlocal expandtab ts=2 sw=2 sts=2
-autocmd Filetype c setlocal expandtab ts=4 sw=4 sts=4
+autocmd Filetype c setlocal expandtab ts=2 sw=2 sts=2
 
 
 " vim-jsx
@@ -162,3 +180,12 @@ endif
 "inoremap <C-T> <ESC> :tabnew<CR>:e
 "imap <C-N> <ESC> :tabn<CR>i
 "imap <C-P> <ESC> :tabp<CR>i
+"
+
+" SYNTAX STATUSLINE
+function! SyntaxItem()
+  let line=synIDattr(synID(line("."),col("."),1),"name")
+  return line . " " . foldlevel(line("."))
+endfunction
+
+"set statusline+=%{SyntaxItem()}

@@ -2,6 +2,7 @@
 
 SETUP_SCRIPTS="
   install.vim.sh
+  install.zsh.sh
 "
 IGNORE="
   $(basename $0)
@@ -65,6 +66,7 @@ make_sym_link () {
     else
       show_warnings "$dotfile"
       echo "Creating link: ~/$link_name -> $dotfile_path"
+      mkdir -p `dirname "$link_path"`
       ln -s $dotfile_path $link_path
     fi
   fi

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+virtualenv_base="$HOME/.virtualenv"
+
+set -e
+
+if [ $# -ge 1 ]; then
+  cd $1
+fi
+
+cwd=`pwd`
+if [[ "$cwd" != $HOME* ]]; then
+  >&2 echo "error: path is outside \$HOME: $cwd"
+  exit 1
+fi
+
+work_dir=${cwd#$HOME}
+work_dir=${work_dir#/}
+
+virtualenv_path="$virtualenv_base/$work_dir"
+activate_sh_path="$virtualenv_path/bin/activate"
+
+if [ ! -f "$activate_sh_path" ]; then
+  mkdir -p "$virtualenv_path"
+  python -m venv "$virtualenv_path"
+fi
+
+echo source "$activate_sh_path"

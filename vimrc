@@ -11,7 +11,7 @@ set expandtab
 set smarttab
 
 " Indentation (Go)
-"autocmd Filetype go setlocal noexpandtab shiftwidth=4
+autocmd Filetype go setlocal noexpandtab shiftwidth=2
 
 filetype plugin indent on
 

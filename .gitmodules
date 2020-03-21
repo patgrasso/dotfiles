@@ -34,3 +34,6 @@
 [submodule "vim/bundle/yajs.vim"]
 	path = vim/bundle/yajs.vim
 	url = https://github.com/othree/yajs.vim.git
+[submodule "vim/bundle/vim-one"]
+	path = vim/bundle/vim-one
+	url = https://github.com/rakr/vim-one

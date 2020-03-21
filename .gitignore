@@ -1,0 +1,4 @@
+# We want to allow modifications to gitconfig, but we don't want to track them
+# since those modifications would be local. The only tracked changes in this
+# file should be the include.path which points to shared git config.
+gitconfig

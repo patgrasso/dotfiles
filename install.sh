@@ -2,11 +2,18 @@
 
 SETUP_SCRIPTS="
   install.vim.sh
-  install.zsh.sh
 "
 IGNORE="
   $(basename $0)
   $SETUP_SCRIPTS
+  vim/bundle/*
+  .git/*
+  .gitignore
+  .gitmodules
+  .*.sw*
+
+  bin/*
+  texmf/*
 "
 NON_DOT_DIRS="
   bin
@@ -80,11 +87,12 @@ for script in $SETUP_SCRIPTS; do
   . $script
 done
 
-# All top-level regular files (excluding $IGNORE)
-for f in $(find * -maxdepth 0 -type f); do
-  if ! contains "$IGNORE" "$f"; then
-    make_sym_link $f 1
-  fi
+find_args=`echo "$NON_DOT_DIRS" "$IGNORE" | sed -E "/^\s*$/d;s/(\S+)/! -path '.\/\1'/"`
+
+# All regular files (excluding $IGNORE)
+for f in $(eval find . -type f $find_args); do
+  f=${f#./}
+  make_sym_link $f 1
 done
 
 # Install regular files nested in NON_DOT_DIRS as ~/<dir>/.../<file>

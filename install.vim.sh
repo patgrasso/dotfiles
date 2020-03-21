@@ -1,19 +1,6 @@
 #!/bin/bash
 
-VIM_DIRS="
-  vim/after
-  vim/autoload
-  vim/colors
-"
 BUNDLE_DIR="vim/bundle"
-
-# Link regular files in each dir in $VIM_DIRS
-for vimdir in $VIM_DIRS; do
-  mkdir -p "$HOME/.$vimdir"
-  for f in $(find $vimdir -type f); do
-    make_sym_link $f 1
-  done
-done
 
 # init & update each submodule in vim/bundle
 mkdir -p "$HOME/.$BUNDLE_DIR"

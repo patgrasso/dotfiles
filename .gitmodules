@@ -1,39 +1,20 @@
-[submodule "vim/bundle/neocomplete.vim"]
-	path = vim/bundle/neocomplete.vim
-	url = https://github.com/Shougo/neocomplete.vim.git
 [submodule "vim/bundle/nerdtree"]
 	path = vim/bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
+	branch = master
 [submodule "vim/bundle/syntastic"]
 	path = vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
-[submodule "vim/bundle/tern_for_vim"]
-	path = vim/bundle/tern_for_vim
-	url = https://github.com/marijnh/tern_for_vim.git
+	branch = master
 [submodule "vim/bundle/vim-airline"]
 	path = vim/bundle/vim-airline
 	url = https://github.com/bling/vim-airline.git
-[submodule "vim/bundle/vim-coffee-script"]
-	path = vim/bundle/vim-coffee-script
-	url = https://github.com/kchmck/vim-coffee-script.git
-[submodule "vim/bundle/vim-colors-solarized"]
-	path = vim/bundle/vim-colors-solarized
-	url = https://github.com/altercation/vim-colors-solarized.git
+	branch = master
 [submodule "vim/bundle/vim-fugitive"]
 	path = vim/bundle/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
-[submodule "vim/bundle/vim-jade"]
-	path = vim/bundle/vim-jade
-	url = git://github.com/digitaltoad/vim-jade.git
-[submodule "vim/bundle/vim-jsx"]
-	path = vim/bundle/vim-jsx
-	url = https://github.com/mxw/vim-jsx.git
-[submodule "vim/bundle/vim-stylus"]
-	path = vim/bundle/vim-stylus
-	url = git://github.com/wavded/vim-stylus.git
-[submodule "vim/bundle/yajs.vim"]
-	path = vim/bundle/yajs.vim
-	url = https://github.com/othree/yajs.vim.git
+	branch = master
 [submodule "vim/bundle/vim-one"]
 	path = vim/bundle/vim-one
 	url = https://github.com/rakr/vim-one
+	branch = master

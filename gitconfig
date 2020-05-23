@@ -1,2 +1,5 @@
 [include]
     path = ~/.gitconfig_share
+
+[url "git@github.ibm.com:"]
+    insteadOf = https://github.ibm.com/

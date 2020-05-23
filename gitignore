@@ -2,9 +2,17 @@
 .tern-port
 .tern-project
 
-# Vim swap files
+# Editors artifacts & configuration
 .*.sw*
+.vscode
+.ipynb_checkpoints
 
 # Environment variable files
 *.env
 .env
+
+# Build artifacts
+__pycache__
+
+# module(1)
+.modules

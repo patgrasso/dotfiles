@@ -143,6 +143,23 @@ autocmd Filetype jade setlocal expandtab ts=2 sw=2 sts=2
 autocmd Filetype ruby setlocal expandtab ts=2 sw=2 sts=2
 autocmd Filetype c setlocal expandtab ts=2 sw=2 sts=2
 
+" rust.vim
+let g:rustfmt_autosave = 1
+
+
+" vim-racer
+set hidden
+let g:racer_cmd = "/home/pgrasso/.cargo/bin/racer"
+
+augroup Racer
+  autocmd!
+  autocmd FileType rust nmap <buffer> gd          <Plug>(rust-def)
+  autocmd FileType rust nmap <buffer> gs          <Plug>(rust-def-split)
+  autocmd FileType rust nmap <buffer> gx          <Plug>(rust-def-vertical)
+  autocmd FileType rust nmap <buffer> gt          <Plug>(rust-def-tab)
+  autocmd FileType rust nmap <buffer> <leader>gd  <Plug>(rust-doc)
+augroup END
+
 
 " vim-jsx
 let g:jsx_ext_required = 0

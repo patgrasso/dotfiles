@@ -3,6 +3,19 @@ execute pathogen#infect()
 set encoding=utf-8
 set fileencoding=utf-8
 
+" Turn off the dang bell
+set visualbell
+set t_vb=
+
+" Use <space> as the leader key (thank you Spacemacs)
+let mapleader=" "
+nnoremap <SPACE> <Nop>
+
+" LEADER KEY BINDINGS
+nnoremap <leader>bw :bwipeout<CR>
+nnoremap <leader>w <C-W>
+nnoremap <leader>wd <C-W>c
+
 " Indentation
 set smartindent
 set tabstop=2
@@ -145,6 +158,11 @@ autocmd Filetype c setlocal expandtab ts=2 sw=2 sts=2
 
 " rust.vim
 let g:rustfmt_autosave = 1
+let g:rust_cargo_check_tests = 1
+let g:rust_cargo_check_benches = 1
+let g:rust_cargo_check_examples = 1
+let g:rust_cargo_check_all_features = 1
+let g:rust_cargo_check_all_targets = 1
 
 
 " vim-racer

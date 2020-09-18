@@ -2,6 +2,7 @@ execute pathogen#infect()
 
 set encoding=utf-8
 set fileencoding=utf-8
+set backupcopy=yes
 
 " Turn off the dang bell
 set visualbell

@@ -29,7 +29,7 @@
 [submodule "vim/bundle/vim-go"]
 	path = vim/bundle/vim-go
 	url = https://github.com/fatih/vim-go
-  branch = master
+	branch = master
 [submodule "vim/bundle/vim-markdown"]
 	path = vim/bundle/vim-markdown
 	url = https://github.com/plasticboy/vim-markdown
@@ -37,4 +37,12 @@
 [submodule "vim/bundle/vim-jsx-typescript"]
 	path = vim/bundle/vim-jsx-typescript
 	url = https://github.com/peitalin/vim-jsx-typescript
+	branch = master
+[submodule "vim/bundle/vim-pug"]
+	path = vim/bundle/vim-pug
+	url = https://github.com/digitaltoad/vim-pug
+	branch = master
+[submodule "vim/bundle/dart-vim-plugin"]
+	path = vim/bundle/dart-vim-plugin
+	url = https://github.com/dart-lang/dart-vim-plugin
 	branch = master

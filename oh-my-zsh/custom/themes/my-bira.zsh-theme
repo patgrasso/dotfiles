@@ -13,7 +13,8 @@ local current_dir='%{$terminfo[bold]$fg[blue]%}%~ %{$reset_color%}'
 local git_branch='$(git_prompt_info)'
 local bg_jobs='%(1j.$fg[cyan](+%j)$reset_color .)'
 local rvm_ruby='$(ruby_prompt_info)'
-local venv_prompt='$(virtualenv_prompt_info)'
+#local venv_prompt='$(virtualenv_prompt_info)'
+local venv_prompt=''
 
 ZSH_THEME_RVM_PROMPT_OPTIONS="i v g"
 

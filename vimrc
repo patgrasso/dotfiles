@@ -48,6 +48,8 @@ syntax on
 " Highlighting for specific extensions
 au BufNewFile,BufRead *.hbs set filetype=html
 au BufNewFile,BufRead *.ejs set filetype=html
+au BufNewFile,BufRead *.go2 set syntax=go
+au BufNewFile,BufRead *.avsc set syntax=json
 "au BufNewFile,BufRead *.js  set filetype=js
 "au BufNewFile,BufRead *.jsx set filetype=jsx
 "au BufNewFile,BufRead *.jade set filetype=html
@@ -177,6 +179,23 @@ augroup Racer
   autocmd FileType rust nmap <buffer> gt          <Plug>(rust-def-tab)
   autocmd FileType rust nmap <buffer> <leader>gd  <Plug>(rust-doc)
 augroup END
+
+
+" vim-go
+augroup auto_go
+  autocmd!
+  autocmd BufWritePost *.go :GoBuild
+  "autocmd BufWritePost *_test.go :GoTest
+
+  " :GoInfo
+  autocmd FileType go nmap <Leader>i <Plug>(go-info)
+augroup end
+
+
+" vim-markdown
+let g:vim_markdown_new_list_item_indent = 2
+let g:vim_markdown_folding_level = 6
+let g:vim_markdown_frontmatter = 1
 
 
 " vim-jsx

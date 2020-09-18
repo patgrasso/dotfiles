@@ -29,3 +29,12 @@
 [submodule "vim/bundle/vim-go"]
 	path = vim/bundle/vim-go
 	url = https://github.com/fatih/vim-go
+  branch = master
+[submodule "vim/bundle/vim-markdown"]
+	path = vim/bundle/vim-markdown
+	url = https://github.com/plasticboy/vim-markdown
+	branch = master
+[submodule "vim/bundle/vim-jsx-typescript"]
+	path = vim/bundle/vim-jsx-typescript
+	url = https://github.com/peitalin/vim-jsx-typescript
+	branch = master

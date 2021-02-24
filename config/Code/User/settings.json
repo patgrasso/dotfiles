@@ -28,5 +28,8 @@
     "window.menuBarVisibility": "hidden",
     "window.zoomLevel": 0,
     "editor.tabSize": 2,
-    "python.venvPath": "~/.pyenv"
+    "python.venvPath": "~/.pyenv",
+    "files.insertFinalNewline": true,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "extensions.ignoreRecommendations": false
 }
